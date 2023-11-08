@@ -1,4 +1,10 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+
+local QBCore = nil
+
+
+function UpdateCoreObject()
+	QBCore = exports['qb-core']:GetCoreObject()
+end
 
 function StartMinigame(combo)
 	local Coords = GetEntityCoords(PlayerPedId(), false)
@@ -136,6 +142,10 @@ end
 
 function EndMinigame(won)
 	SafeCracker.MinigameOpen = false
+	repeat
+		UpdateCoreObject()
+		Wait(1)
+	until QBCore
 	if won then 
 		PlaySoundFrontend(SafeCracker.SoundID, SafeCracker.Config.SafeFinalSound, SafeCracker.Config.SafeSoundset, true)
 		QBCore.Functions.Notify("Safe opened..", "success")
